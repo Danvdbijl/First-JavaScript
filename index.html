@@ -5,36 +5,188 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assessment 2</title>
-    <link rel="stylesheet" href="/index.css">
+    <style>
+        :root {
+            background-color: darkgrey;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 5px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .mainDiv {
+            margin: auto;
+            width: 75%;
+            border: 10px outset darkblue;
+            background-color: lightblue;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .display {
+            border: 3px outset red;
+            background-color: tan;
+            padding: 20px;
+            float: left;
+            width: 48%;
+            height: 380px;
+        }
+
+        .pyramid {
+            float: right;
+            width: 48%;
+            height: 380px;
+            border: 3px outset red;
+            background-color: tan;
+            padding: 10px;
+        }
+
+        p {
+            font-size: 30px;
+            text-align: center;
+        }
+
+        p.result {
+            font-size: 20px;
+            text-align: left;
+        }
+
+        button {
+            padding: 5px 30px;
+            font-size: 16px;
+            border-radius: .9rem;
+        }
+
+        input {
+            text-align: left;
+            padding: 10px;
+            border-radius: .5rem;
+        }
+    </style>
 </head>
 <body>
     <h1> HTML/JavaScript Assessent</h1>
     <div class="mainDiv">
         <p>Please fill out the following information:</p> <br>
-        <form name ="form1">
+        <form name="form1">
+            <label for="userId"></label>
             <input type="text" name="Input" id="userId" placeholder="User ID..." value=''><br>
-            <p style="font-size: 12px;">Your User id should have an UPPERcase, a lowercase, and be 8 -12 chars long.</p> 
+            <p style="font-size: 12px;">Your User id should have an UPPERcase, a lowercase, and be 8 -12 chars long.</p>
+            <label for="fname"></label>
             <input type="text" name="Input" id="fname" placeholder="Your First Name..." value=''><br><br>
+            <label for="lname"></label>
             <input type="text" name="Input" id="lname" placeholder="Your Last Name..." value=''><br><br>
+            <label for="dateOb"></label>
             <input type="date" name="Input" id="dateOb"><br><br>
         </form>
         <button onclick="validateForm()">Accept</button>
     </div>
     <div class="row">
-      <div class="display">
-        <p class="result">Full Name: <span id="fullName"></span> </p>
-        <p class="result">Date of Birth: <span id="dob"></span>  </p>
-        <p class="result" 
-            style="font-size: 15px;color: darkblue;text-align: center;" 
-            id='daysOfBreathing2'></p>
-        <p class="result">Old enough to register? <span id="rightAge"></span></p>
-        
-      </div>
-      <div class="pyramid">
-        <h3>Half Pyramid</h3>
-        <h5 id='xloop'></h5>
-      </div>
+        <div class="display">
+            <p class="result">Full Name: <span id="fullName"></span></p>
+            <p class="result">Date of Birth: <span id="dob"></span></p>
+            <p class="result"
+               style="font-size: 15px;color: darkblue;text-align: center;"
+               id='daysOfBreathing2'></p>
+            <p class="result">Old enough to register? <span id="rightAge"></span></p>
+
+        </div>
+        <div class="pyramid">
+            <h3>Half Pyramid</h3>
+            <h5 id='xloop'></h5>
+        </div>
     </div>
-   <script src="index.js"></script> 
+    <script>
+        function validateForm() {
+
+            // --------------------- Validate UserId and empty labels -----------------//
+
+            let uid = document.getElementById('userId').value;
+            let fName = document.getElementById('fname').value;
+            let lName = document.getElementById('lname').value;
+            let Birthday = document.getElementById('dateOb').value;
+            let upper = false;
+            let lower = false;
+            if (uid === '') {
+                return alert('Please fill out the necessary fields.');
+            } else if (uid.length < 8 || uid.length > 12) {
+                console.log(uid.length);
+                return alert("Invalid User ID. Use between 8-12 characters.");
+            }
+
+            for (let i = 0; i < uid.length; i++) {
+                if (uid.charAt(i) === uid.charAt(i).toUpperCase()) {
+                    upper = true;
+                } else if (uid.charAt(i) === uid.charAt(i).toLowerCase()) {
+                    lower = true;
+                }
+            }
+            if (upper && lower === true) {
+                alert('Your User Id is good');
+            } else {
+                return alert('The UserID needs changing');
+            }
+            if (fName === '') {
+                return alert('Please fill out the necessary fields.');
+            } else if (lName === '') {
+                return alert('Please fill out the necessary fields.');
+            } else if (Birthday === '') {
+                return alert('Please fill out the necessary fields.');
+            }
+
+            // ---------------- Formatting Date of Birth -------------//
+
+            const formattedDate = new Date(Birthday)
+            const monthName = formattedDate.toLocaleDateString('default', {month: 'short'})
+            const day = formattedDate.getDate();
+            const year = formattedDate.getFullYear();
+            document.getElementById('fullName').innerHTML =
+                fName + ' ' + lName;
+            document.getElementById('dob').innerHTML =
+                monthName + ' ' +
+                (day + 1) + ' ' + year;
+
+            // --------------- Days Breathing ------------------//
+
+            let dayInSec = 1000 * 60 * 60 * 24;
+            let today = new Date();
+            let birthDate = new Date(Birthday);
+            console.log(birthDate);
+            let daysBreathing = (today - birthDate) / dayInSec;
+
+
+            document.getElementById('daysOfBreathing2').innerHTML = ' You have been breathing for ' +
+                daysBreathing.toFixed(0) + ' days since your birth.';
+
+            // -----------------------Old enough to register ----------------//
+            let daysInEighteen = 6570;
+            if (daysBreathing >= daysInEighteen) {
+                document.getElementById('rightAge').innerHTML = 'Yes';
+            } else {
+                document.getElementById('rightAge').innerHTML = 'No';
+            }
+
+            document.form1.reset();
+        }
+
+        // ----------------------Half Pyramid --------------------------//
+        let str = '';
+        let halfPyramid = '';
+        let i;
+        for (i = 0; i < 20; i++) {
+            halfPyramid += str.padStart(i, 'x') + '<br>';
+        }
+        document.getElementById('xloop').innerHTML = halfPyramid;
+
+    </script>
 </body>
 </html>
