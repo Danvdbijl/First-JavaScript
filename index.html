@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assessment 2</title>
+    <link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <h1> HTML/JavaScript Assessent</h1>
+    <div class="mainDiv">
+        <p>Please fill out the following information:</p> <br>
+        <form name ="form1">
+            <input type="text" name="Input" id="userId" placeholder="User ID..." value=''><br>
+            <p style="font-size: 12px;">Your User id should have an UPPERcase, a lowercase, and be 8 -12 chars long.</p> 
+            <input type="text" name="Input" id="fname" placeholder="Your First Name..." value=''><br><br>
+            <input type="text" name="Input" id="lname" placeholder="Your Last Name..." value=''><br><br>
+            <input type="date" name="Input" id="dateOb"><br><br>
+        </form>
+        <button onclick="validateForm()">Accept</button>
+    </div>
+    <div class="row">
+      <div class="display">
+        <p class="result">Full Name: <span id="fullName"></span> </p>
+        <p class="result">Date of Birth: <span id="dob"></span>  </p>
+        <p class="result" 
+            style="font-size: 15px;color: darkblue;text-align: center;" 
+            id='daysOfBreathing2'></p>
+        <p class="result">Old enough to register? <span id="rightAge"></span></p>
+        
+      </div>
+      <div class="pyramid">
+        <h3>Half Pyramid</h3>
+        <h5 id='xloop'></h5>
+      </div>
+    </div>
+   <script src="index.js"></script> 
+</body>
+</html>
